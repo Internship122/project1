@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Personne>
 @{
     ViewData["Title"] = "Index";
-}<div 
+}
+
 <div class=" container p-3">
     <div class="row p-4">
         <div class="col-6" >
@@ -45,7 +46,7 @@
                     @obj.BirthDate
                 </td>
                 <td width="30%">
-                       @obj.Age(obj.BirthDate)
+                       @Personne.Age(obj.BirthDate)
                 </td>
             </tr>
         }

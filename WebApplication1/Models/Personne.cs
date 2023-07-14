@@ -27,9 +27,9 @@ namespace WebApplication1.Models
 
         //}
 
-        public  int Age (DateTime BirthDate)
+        public static int Age(DateTime BirthDate)
         {
-            var age=Convert.ToInt32(DateTime.Now.Year)-Convert.ToInt32(BirthDate.Year);
+            var age = Convert.ToInt32(DateTime.Now.Year) - Convert.ToInt32(BirthDate.Year);
             return age;
         }
 

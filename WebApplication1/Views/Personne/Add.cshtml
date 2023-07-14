@@ -18,6 +18,7 @@
         <div class="mb-3">
             <label asp-for="BirthDate"></label>
             <input asp-for="BirthDate" class="form-control" />
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" width="150px">Submit</button>
         <a asp-controller="Personne" asp-action="Index" class="btn btn-primary" width="150px">Back to List</a>

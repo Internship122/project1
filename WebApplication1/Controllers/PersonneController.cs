@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Data;
+﻿//using AspNetCore;
 using WebApplication1.Models;
+using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Data;
+
 
 namespace WebApplication1.Controllers
 {
+    [ApiController]
     public class PersonneController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -33,11 +36,12 @@ namespace WebApplication1.Controllers
         {
             if (Personne.Age(BirthDate) >= 150 && Personne.Age(BirthDate) < 0)
             {
-                ModelState.AddModelError("Custom Error", "Birthdate invalid");
+                ModelState.AddModelError("BirthDate", "Birthdate invalid ");
+
             }
             if (ModelState.IsValid) { 
             _db.Personnes.Add(obj);
-            _db.SaveChanges();
+                _db.SaveChanges();
             return RedirectToAction("Index","Personne");
             }
             return View(obj);
