@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
 
 
+
 namespace WebApplication1.Controllers
 {
     [ApiController]
@@ -16,6 +17,7 @@ namespace WebApplication1.Controllers
         {
             _db = db;
         }
+
         public IActionResult Index()
         {
             IEnumerable<Personne> objPersonList = _db.Personnes;   

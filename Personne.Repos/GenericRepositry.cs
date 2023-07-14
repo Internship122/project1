@@ -1,13 +1,11 @@
-﻿using Personne.Repos.Contracts;
+﻿
+using Personne.Repos.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApplication1.Data;
-using WebApplication1.Models;
-using WebApplications.Controllers;
 
 namespace Personne.Repos
 {
@@ -23,7 +21,7 @@ namespace Personne.Repos
         }
         public void Add(T entity)
         {
-            return this._dbSet.Add(entity);
+            this._dbSet.Add(entity);
         }
 
         public IEnumerable<T> GetAll()
