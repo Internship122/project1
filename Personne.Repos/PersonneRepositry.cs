@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Personne.Repos.Contracts
+namespace Personne.Repos
 {
-    internal interface IPersonneRepositry
-    { 
-
+    internal class PersonneRepositry
+    {
     }
 }

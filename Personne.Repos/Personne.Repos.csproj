@@ -54,6 +54,7 @@
     <Compile Include="Contracts\IPersonneRepositry.cs" />
     <Compile Include="Contracts\IRepositry.cs" />
     <Compile Include="GenericRepositry.cs" />
+    <Compile Include="PersonneRepositry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

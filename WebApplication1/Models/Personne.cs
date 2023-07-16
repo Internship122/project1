@@ -12,7 +12,7 @@ namespace WebApplication1.Models
         public string Name { get; set; }
         
         public string Prename { get; set; }
-
+  
         public DateTime BirthDate { get; set ; }
 
         //public Personne(int id, string name, string prename, DateTime birthDate)
