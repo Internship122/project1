@@ -2,8 +2,12 @@
 
 namespace WebApplication1.Services.Personnes
 {
-    public interface IPersonneService
+    public interface IPersonneService: IDisposable
     {
         void Add(Personne personne);
+
+        IEnumerable<Personne> GetAll();
+
+        void Save();
     }
 }

@@ -15,17 +15,17 @@ namespace WebApplication1.Models
   
         public DateTime BirthDate { get; set ; }
 
-        //public Personne(int id, string name, string prename, DateTime birthDate)
-        //{
-        //    Id = id;
+        public Personne(int id, string name, string prename, DateTime birthDate)
+        {
+            Id = id;
 
-        //    Name = name;
+            Name = name;
 
-        //    Prename = prename;
+            Prename = prename;
 
-        //    BirthDate = birthDate.Date;
+            BirthDate = birthDate;
 
-        //}
+        }
 
         public static int Age(DateTime BirthDate)
         {
