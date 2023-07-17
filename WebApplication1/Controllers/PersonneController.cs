@@ -54,6 +54,10 @@ namespace WebApplication1.Controllers
 
         public async Task<ActionResult<PersonneDTO>> CreatePersonne(Personne personne)
         {
+            if ((personne.Age(personne.BirthDate) > 150)||(personne.Age(personne.BirthDate) < 0))
+                {
+                return BadRequest();
+                }
             _db.Personnes.Add(personne);
             await _db.SaveChangesAsync();
 
@@ -91,6 +95,8 @@ namespace WebApplication1.Controllers
 
             return NoContent();
         }
+
+
 
 
 

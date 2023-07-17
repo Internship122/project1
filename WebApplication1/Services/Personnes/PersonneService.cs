@@ -6,11 +6,11 @@ namespace WebApplication1.Services.Personnes
     public class PersonneService : IPersonneService, IDisposable
     {
         private readonly ApplicationDbContext _db;
-        //public PersonneService(ApplicationDbContext db)
-        //{
-        //    this._db = db;
-        //}
-        public void Add(Personne personne)
+        public PersonneService(ApplicationDbContext db)
+        {
+            this._db = db;
+        }
+        public void CreatePersonne(Personne personne)
         {
             _db.Personnes.Add(personne);
         }

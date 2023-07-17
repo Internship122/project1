@@ -4,7 +4,7 @@ namespace WebApplication1.Services.Personnes
 {
     public interface IPersonneService: IDisposable
     {
-        void Add(Personne personne);
+        void CreatePersonne(Personne personne);
 
         IEnumerable<Personne> GetAll();
 
