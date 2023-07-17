@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Personne.Repos.Contracts
 {
-    internal interface IPersonneRepositry
+    public interface IPersonneRepositry
     { 
 
     }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Personne.Repos
+namespace Personne.Repos.Contracts
 {
-    internal class PersonneRepositry
+    public interface IUnitOfWork: IDisposable
     {
+        Task commit();
     }
 }

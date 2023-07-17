@@ -1,8 +1,10 @@
-﻿//using AspNetCore;
+﻿using AspNetCore;
 using WebApplication1.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
 using WebApplication1.Services.Personnes;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace WebApplication1.Controllers
 {
@@ -12,6 +14,7 @@ namespace WebApplication1.Controllers
         private readonly ApplicationDbContext _db;
         private readonly DateTime BirthDate;
         private readonly IPersonneService _personneService;
+        
 
         public PersonneController(ApplicationDbContext db)
         {
@@ -30,8 +33,17 @@ namespace WebApplication1.Controllers
         }
         //GET
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult GetAll()
         {
+            //_db.Entry<Personne>(personne).State = EntityState.Modified;
+            //try
+            //{
+            //    await _db.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException) 
+            //{
+            //    throw;
+            //}
             return View();
         }
 
@@ -39,9 +51,9 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         
-        public IActionResult Add(Personne obj)
+        public async IActionResult Add(Personne obj)
         {
-            _personneService.Add(personne);
+            _personneService.Add(obj);
             if (Personne.Age(BirthDate) >= 150 && Personne.Age(BirthDate) < 0)
             {
                 ModelState.AddModelError("BirthDate", "Birthdate invalid ");
@@ -49,10 +61,10 @@ namespace WebApplication1.Controllers
             }
             if (ModelState.IsValid) { 
             _db.Personnes.Add(obj);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             return RedirectToAction("Index","Personne");
             }
-            return View(obj);
+            //return View(obj);
         }
     }
 }

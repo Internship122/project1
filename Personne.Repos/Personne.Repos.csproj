@@ -53,8 +53,10 @@
   <ItemGroup>
     <Compile Include="Contracts\IPersonneRepositry.cs" />
     <Compile Include="Contracts\IRepositry.cs" />
-    <Compile Include="GenericRepositry.cs" />
-    <Compile Include="PersonneRepositry.cs" />
+    <Compile Include="Contracts\IUnitOfWork.cs" />
+    <Compile Include="Models\GenericRepositry.cs" />
+    <Compile Include="Models\PersonneRepositry.cs" />
+    <Compile Include="Models\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

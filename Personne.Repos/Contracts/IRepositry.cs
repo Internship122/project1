@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Personne.Repos.Contracts
 {
-    internal interface IRepositry<T> where T : class
+    public interface IRepositry<T> where T : class
     {
         IEnumerable<T> GetAll();
 

@@ -12,6 +12,6 @@ namespace WebApplication1.Data
                 
         }
 
-        public DbSet<Personne> Personnes { get; set; }
+        public DbSet<Personne> Personnes { get; set; } = null!;
     }
 }
