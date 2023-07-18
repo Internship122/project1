@@ -31,10 +31,15 @@ namespace WebApplication1.Services.Personnes
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed) { 
-            _db.Dispose();
+            if (!_disposed)
+            {
+                _db.Dispose();
+                if (disposing)
+                { 
+                _disposed = true;
+                }
             }
-            _disposed = true;
+            _db.Dispose(disposing);
         }
 
         public async Task<ActionResult<IEnumerable<Personne>>> GetAll()

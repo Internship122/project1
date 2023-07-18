@@ -15,6 +15,7 @@ namespace WebApplication1.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IPersonneService _personneService;
         private IMapper _mapper;
+        private bool disposing;
 
 
         public PersonneController(IMapper mapper)
@@ -67,6 +68,11 @@ namespace WebApplication1.Controllers
                 nameof(Personne)
                 , new {id= personne.Id}, personne);
             }  
+        }
+
+        public void Dispose(bool disposing)
+        {
+            _personneService.Dispose();
         }
     }
 }
