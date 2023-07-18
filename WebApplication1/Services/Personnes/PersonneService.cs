@@ -18,7 +18,7 @@ namespace WebApplication1.Services.Personnes
         public async void CreatePersonne(Personne personne)
         {
             _db.Personnes.Add(personne);
-            await _db.SaveChangesAsync();
+ 
         }
 
         public void Dispose()
