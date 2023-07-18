@@ -6,8 +6,12 @@ namespace WebApplication1.Services.Personnes
     {
         void CreatePersonne(Personne personne);
 
-        IEnumerable<Personne> GetAll();
+        Task<IEnumerable<Personne>> GetAll();
+
+        void PutPersonne(Personne personne);
 
         void Save();
+
+
     }
 }

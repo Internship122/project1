@@ -39,11 +39,10 @@ namespace WebApplication1.Controllers
         
         //GET
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonneDTO>>> GetAll()
+        public  Task<ActionResult<IEnumerable<Personne>>> GetAll()
         {
-            return await _db.Personnes.
-                Select(x => personneDTO(x)).
-                ToListAsync();
+            var PersonneList= _personneService.GetAll();
+            return PersonneList;
         }
 
         
@@ -52,22 +51,24 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<ActionResult<PersonneDTO>> CreatePersonne(Personne personne)
+        public  ActionResult<PersonneDTO> CreatePersonne(Personne personne)
         {
-            if ((personne.Age(personne.BirthDate) > 150)||(personne.Age(personne.BirthDate) < 0))
-                {
+            if ((personne.Age(personne.BirthDate) > 150) || (personne.Age(personne.BirthDate) < 0))
+            {
                 return BadRequest();
-                }
-            _db.Personnes.Add(personne);
-            await _db.SaveChangesAsync();
-
+            }
+            else
+            {
+                _personneService.CreatePersonne(personne);
+            
             return CreatedAtAction(
                 nameof(Personne)
                 , new {id= personne.Id}, personne);
+            }
         }
         //Update
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTodoItem(string name, PersonneDTO personneDTO)
+        public async Task<IActionResult> PutPersonne(string name, PersonneDTO personneDTO)
         {
             if (name != personneDTO.Name)
             {
@@ -80,13 +81,13 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            personne.Name = personneDTO.Name;
-            personne.Prename = personneDTO.Prename;
-            personne.Age(personne.BirthDate) = personneDTO.Age;
+            personneDTO.Name = personne.Name;
+            personneDTO.Prename = personne.Prename;
+            personneDTO.Age = personne.Age(personne.BirthDate);
 
             try
             {
-                await _db.SaveChangesAsync();
+                _personneService.PutPersonne(personne);
             }
             catch (DbUpdateConcurrencyException) 
             {

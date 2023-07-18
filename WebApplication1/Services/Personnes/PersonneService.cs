@@ -1,5 +1,7 @@
 ﻿using WebApplication1.Data;
 using WebApplication1.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Services.Personnes
 {
@@ -10,9 +12,10 @@ namespace WebApplication1.Services.Personnes
         {
             this._db = db;
         }
-        public void CreatePersonne(Personne personne)
+        public async void CreatePersonne(Personne personne)
         {
             _db.Personnes.Add(personne);
+            await _db.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -20,9 +23,14 @@ namespace WebApplication1.Services.Personnes
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Personne> GetAll()
+        public async Task<IEnumerable<Personne>> GetAll()
         {
-            return _db.Personnes.ToList<Personne>();
+            return await _db.Personnes.ToListAsync<Personne>();
+        }
+
+        public async void PutPersonne(Personne personne)
+        {
+            await _db.SaveChangesAsync();
         }
 
         public void Save()
