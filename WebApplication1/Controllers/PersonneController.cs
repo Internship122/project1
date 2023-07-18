@@ -16,10 +16,10 @@ namespace WebApplication1.Controllers
         private readonly IPersonneService _personneService;
         
 
-        public PersonneController(ApplicationDbContext db)
-        {
-            _db = db;
-        }
+        //public PersonneController(ApplicationDbContext db)
+        //{
+        //    _db = db;
+        //}
 
         public PersonneController(IPersonneService personneService)
         {
