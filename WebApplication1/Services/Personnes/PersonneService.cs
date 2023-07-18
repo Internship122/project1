@@ -23,7 +23,7 @@ namespace WebApplication1.Services.Personnes
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Personne>> GetAll()
+        public async Task<ActionResult<IEnumerable<Personne>>> GetAll()
         {
             return await _db.Personnes.ToListAsync<Personne>();
         }

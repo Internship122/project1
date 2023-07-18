@@ -1,4 +1,5 @@
-﻿using WebApplication1.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Models;
 
 namespace WebApplication1.Services.Personnes
 {
@@ -6,7 +7,7 @@ namespace WebApplication1.Services.Personnes
     {
         void CreatePersonne(Personne personne);
 
-        Task<IEnumerable<Personne>> GetAll();
+        Task<ActionResult<IEnumerable<Personne>>> GetAll();
 
         void PutPersonne(Personne personne);
 
