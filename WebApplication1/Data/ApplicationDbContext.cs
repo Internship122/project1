@@ -1,7 +1,6 @@
 ﻿using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace WebApplication1.Data
 {
     public class ApplicationDbContext : DbContext
@@ -13,5 +12,10 @@ namespace WebApplication1.Data
         }
 
         public DbSet<Personne> Personnes { get; set; } = null!;
+
+        internal Task<Personne> FindAsync(Personne personne)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

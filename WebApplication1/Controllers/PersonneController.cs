@@ -60,49 +60,12 @@ namespace WebApplication1.Controllers
             else
             {
                 _personneService.CreatePersonne(personne);
+                _personneService.Save();
             
             return CreatedAtAction(
                 nameof(Personne)
                 , new {id= personne.Id}, personne);
             }
         }
-        //Update
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersonne(string name, PersonneDTO personneDTO)
-        {
-            if (name != personneDTO.Name)
-            {
-                return BadRequest();
-            }
-
-            var personne = await _db.Personnes.FindAsync(name);
-            if (personne == null)
-            {
-                return NotFound();
-            }
-
-            personneDTO.Name = personne.Name;
-            personneDTO.Prename = personne.Prename;
-            personneDTO.Age = personne.Age(personne.BirthDate);
-
-            try
-            {
-                _personneService.PutPersonne(personne);
-            }
-            catch (DbUpdateConcurrencyException) 
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
-
-
-
-
-
-
-
     }
 }

@@ -9,8 +9,6 @@ namespace WebApplication1.Services.Personnes
 
         Task<ActionResult<IEnumerable<Personne>>> GetAll();
 
-        void PutPersonne(Personne personne);
-
         void Save();
 
 

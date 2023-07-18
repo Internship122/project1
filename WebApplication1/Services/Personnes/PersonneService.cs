@@ -2,15 +2,18 @@
 using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Entity;
 
 namespace WebApplication1.Services.Personnes
 {
     public class PersonneService : IPersonneService, IDisposable
     {
         private readonly ApplicationDbContext _db;
-        public PersonneService(ApplicationDbContext db)
+        private readonly DbSet dbSet;
+        public PersonneService(ApplicationDbContext db, DbSet dbSet)
         {
             this._db = db;
+            this.dbSet = dbSet;
         }
         public async void CreatePersonne(Personne personne)
         {
@@ -28,14 +31,10 @@ namespace WebApplication1.Services.Personnes
             return await _db.Personnes.ToListAsync<Personne>();
         }
 
-        public async void PutPersonne(Personne personne)
+
+        public async void Save()
         {
             await _db.SaveChangesAsync();
-        }
-
-        public void Save()
-        {
-            _db.SaveChanges();
         }
     }
 }
