@@ -10,6 +10,7 @@ namespace WebApplication1.Services.Personnes
     {
         private readonly ApplicationDbContext _db;
         private readonly DbSet dbSet;
+        private bool _disposed;
         public PersonneService(ApplicationDbContext db, DbSet dbSet)
         {
             this._db = db;
@@ -23,7 +24,16 @@ namespace WebApplication1.Services.Personnes
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed) { 
+            _db.Dispose();
+            }
+            _disposed = true;
         }
 
         public async Task<ActionResult<IEnumerable<Personne>>> GetAll()
