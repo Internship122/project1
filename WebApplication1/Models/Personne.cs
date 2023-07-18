@@ -14,7 +14,7 @@ namespace WebApplication1.Models
         public string Prename { get; set; }
   
         public DateTime BirthDate { get; set ; }
-        public static object personne { get; internal set; }
+        
 
         public Personne(int id, string name, string prename, DateTime birthDate)
         {

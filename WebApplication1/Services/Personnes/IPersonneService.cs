@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Data.Entity.Core.Objects;
 using WebApplication1.Models;
 
 namespace WebApplication1.Services.Personnes

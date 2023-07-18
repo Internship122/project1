@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
 using WebApplication1.Services.Personnes;
 using Microsoft.EntityFrameworkCore;
-
+using AutoMapper;
 
 namespace WebApplication1.Controllers
 {
@@ -14,12 +14,13 @@ namespace WebApplication1.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IPersonneService _personneService;
-        
+        private IMapper _mapper;
 
-        //public PersonneController(ApplicationDbContext db)
-        //{
-        //    _db = db;
-        //}
+
+        public PersonneController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         public PersonneController(IPersonneService personneService)
         {
@@ -53,19 +54,19 @@ namespace WebApplication1.Controllers
 
         public  ActionResult<PersonneDTO> CreatePersonne(Personne personne)
         {
-            if ((personne.Age(personne.BirthDate) > 150) || (personne.Age(personne.BirthDate) < 0))
+            if ((personne.Age(personne.BirthDate) > 150) && (personne.Age(personne.BirthDate) < 0))
             {
-                return BadRequest();
+                return BadRequest();;
             }
-            else
+            else 
             {
                 _personneService.CreatePersonne(personne);
                 _personneService.Save();
             
-            return CreatedAtAction(
+                return CreatedAtAction(
                 nameof(Personne)
                 , new {id= personne.Id}, personne);
-            }
+            }  
         }
     }
 }

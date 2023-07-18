@@ -13,6 +13,11 @@ namespace WebApplication1.Data
 
         public DbSet<Personne> Personnes { get; set; } = null!;
 
+        internal void Dispose(bool disposing)
+        {
+            throw new NotImplementedException();
+        }
+
         internal Task<Personne> FindAsync(Personne personne)
         {
             throw new NotImplementedException();

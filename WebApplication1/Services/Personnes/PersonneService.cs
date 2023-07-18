@@ -3,6 +3,7 @@ using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 
 namespace WebApplication1.Services.Personnes
 {
@@ -40,7 +41,6 @@ namespace WebApplication1.Services.Personnes
         {
             return await _db.Personnes.ToListAsync<Personne>();
         }
-
 
         public async void Save()
         {

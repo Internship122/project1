@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPersonneService, PersonneService>();
 builder.Services.AddScoped<IDisposable, IDisposable>();
-
+builder.Services.AddAutoMapper(typeof(Personne));
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection") 
     ));
