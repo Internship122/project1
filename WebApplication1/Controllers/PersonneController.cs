@@ -1,12 +1,11 @@
-﻿using AspNetCore;
-using WebApplication1.Models;
+﻿using WebApplication1.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
 using WebApplication1.Services.Personnes;
+using System.Data.Entity;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-
 
 namespace WebApplication1.Controllers
 {
@@ -16,15 +15,10 @@ namespace WebApplication1.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IPersonneService _personneService;
-        private IMapper _mapper;
-        private bool disposing;
 
 
-        public PersonneController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
 
+     
         public PersonneController(IPersonneService personneService)
         {
             _personneService = personneService;
@@ -43,13 +37,13 @@ namespace WebApplication1.Controllers
         
         //GET
         [HttpGet]
-        public  Task<ActionResult<IEnumerable<Personne>>> GetAll()
+        public  async Task<ActionResult<IEnumerable<Personne>>> GetAll()
         {
-            var PersonnesList= _personneService.GetAll();
-            var PersonnesAvecAge =PersonnesList.Select(p => new
+            var PersonnesList= await _personneService.GetAll();
+            var PersonnesAvecAge =PersonnesList.Select(p => new PersonneDTO
             {
                 Name=p.Name,
-                prename=p.Prename,
+                Prename=p.Prename,
                 Age=p.Age(p.BirthDate)
             });
 
@@ -60,28 +54,22 @@ namespace WebApplication1.Controllers
 
         //ADD
         [HttpPost]
-        [ValidateAntiForgeryToken]
 
-        public  ActionResult<PersonneDTO> CreatePersonne(Personne personne)
+        public  async Task<IActionResult> CreatePersonne(Personne personne)
         {
-            if ((personne.Age(personne.BirthDate) > 150) && (personne.Age(personne.BirthDate) < 0))
+            if ((personne.Age(personne.BirthDate) > 150) || (personne.Age(personne.BirthDate) < 0))
             {
-                return BadRequest("The person age is invalid");;
+                return BadRequest("The person age is invalid");
             }
             else 
             {
-                _personneService.CreatePersonne(personne);
-                _personneService.Save();
-            
-                return CreatedAtAction(
-                nameof(Personne)
-                , new {id= personne.Id}, personne);
-            }  
+                await _personneService.CreatePersonne(personne);
+                await _personneService.Save();
+
+                return Ok();
+                
+            };  
         }
 
-        public void Dispose(bool disposing)
-        {
-            _personneService.Dispose();
-        }
     }
 }

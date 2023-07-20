@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="IKVM" Version="8.6.2" />
+    <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="6.0.20" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.20" />
@@ -20,6 +22,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.15" />
     <PackageReference Include="Mvc.RazorTools.Base" Version="5.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

@@ -4,13 +4,15 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Services.Personnes
 {
-    public interface IPersonneService: IDisposable
+    public interface IPersonneService
     {
-        void CreatePersonne(Personne personne);
+        Task CreatePersonne(Personne personne);
 
-        Task<ActionResult<IEnumerable<Personne>>> GetAll();
+        Task<IEnumerable<Personne>> GetAll();
 
-        void Save();
+        
+
+        Task Save();
 
 
     }
