@@ -19,7 +19,7 @@ namespace WebApplication1.Services.Personnes
         }
         public async void CreatePersonne(Personne personne)
         {
-            _db.Personnes.Add(personne);
+             _db.Personnes.Add(personne);
  
         }
 
@@ -44,7 +44,10 @@ namespace WebApplication1.Services.Personnes
 
         public async Task<ActionResult<IEnumerable<Personne>>> GetAll()
         {
-            return await _db.Personnes.ToListAsync<Personne>();
+            return await _db.Personnes.
+                OrderBy(p => p.Name).
+                ThenBy(p => p.Prename).
+                ToListAsync<Personne>();
         }
 
         public async void Save()

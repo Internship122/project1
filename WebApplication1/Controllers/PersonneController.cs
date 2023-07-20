@@ -3,8 +3,10 @@ using WebApplication1.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
 using WebApplication1.Services.Personnes;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+
 
 namespace WebApplication1.Controllers
 {
@@ -43,8 +45,15 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public  Task<ActionResult<IEnumerable<Personne>>> GetAll()
         {
-            var PersonneList= _personneService.GetAll();
-            return PersonneList;
+            var PersonnesList= _personneService.GetAll();
+            var PersonnesAvecAge =PersonnesList.Select(p => new
+            {
+                Name=p.Name,
+                prename=p.Prename,
+                Age=p.Age(p.BirthDate)
+            });
+
+            return Ok(PersonnesAvecAge);
         }
 
         
@@ -57,7 +66,7 @@ namespace WebApplication1.Controllers
         {
             if ((personne.Age(personne.BirthDate) > 150) && (personne.Age(personne.BirthDate) < 0))
             {
-                return BadRequest();;
+                return BadRequest("The person age is invalid");;
             }
             else 
             {
