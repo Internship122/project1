@@ -8,12 +8,10 @@ namespace WebApplication1.Services.Personnes
     {
         Task CreatePersonne(Personne personne);
 
-        Task<IEnumerable<Personne>> GetAll();
-
-        
+        Task<IEnumerable<PersonneDTO>> GetAll(); 
 
         Task Save();
 
-
+        bool AgeValidator(Personne personne,int MaxAge, int MinAge);
     }
 }

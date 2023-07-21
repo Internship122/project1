@@ -11,7 +11,7 @@ namespace WebApplication1.Models
 
         [Required]
         public string Name { get; set; }
-        
+        [Required]
         public string Prename { get; set; }
   
         public DateTime BirthDate { get; set ; }
@@ -35,10 +35,7 @@ namespace WebApplication1.Models
             return age;
         }
 
-        //internal static int Age(object birthDate)
-        //{
-        //    throw new NotImplementedException();
-        //}
+
     }
 
    
