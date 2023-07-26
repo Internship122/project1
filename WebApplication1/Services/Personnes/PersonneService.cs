@@ -1,11 +1,11 @@
 ﻿using WebApplication1.Data;
 using WebApplication1.Models;
-//using System.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Core.Objects;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using System.Linq;
 
 namespace WebApplication1.Services.Personnes
 {
@@ -22,6 +22,7 @@ namespace WebApplication1.Services.Personnes
         public async Task CreatePersonne(Personne personne)
         {
             await _db.Personnes.AddAsync(personne);
+            var PersonneDTO=_mapper.Map<Personne>(personne);
  
         }
 
@@ -29,14 +30,55 @@ namespace WebApplication1.Services.Personnes
 
         public async Task<IEnumerable<PersonneDTO>> GetAll()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.CreateProjection<Personne, PersonneDTO>()
-            .ForMember(dto => dto.Age, conf => conf.MapFrom(p => p.Age(p.BirthDate))));
+            //var configuration = new MapperConfiguration(cfg => cfg.CreateProjection<Personne, PersonneDTO>()
+            //.ForMember(dto => dto.Age, conf => conf.MapFrom(p => p.Age(p.BirthDate))));
 
-            return await _db.Personnes.
-                 ProjectTo<PersonneDTO>(configuration).
+            var personnes= await _db.Personnes.
                  OrderBy(p => p.Name).
                  ThenBy(p => p.Prename).
-                 ToListAsync<PersonneDTO>();
+                 ToListAsync();
+            var personnesDTO= personnes.Select(personne=> _mapper.Map<PersonneDTO>(personne));
+            return personnesDTO;
+        }
+
+        public async Task<PersonneDTO?> GetById(int id)
+        {
+            var personne = await _db.Personnes.FindAsync(id);
+            if (personne == null)
+            {
+                return null;
+            }
+            var personneDTO=_mapper.Map<PersonneDTO>(personne);
+            return personneDTO;
+        }
+
+        public async Task<PersonneDTO?> UpdatePersonne(int id)
+        {
+            var personne = await _db.Personnes.FindAsync(id);
+            if (personne == null)
+            {
+                return null;
+            }
+            else
+            { 
+                var personneDTO = _mapper.Map<PersonneDTO>(personne);
+                return personneDTO;
+            }
+        }
+
+        public async Task<PersonneDTO?> DeletePersonne(int id)
+        {
+            var personne = await _db.Personnes.FindAsync(id);
+            if (personne == null)
+            {
+                return null;
+            }
+            else
+            {
+                _db.Personnes.Remove(personne);
+                var personneDTO= _mapper.Map<PersonneDTO>(personne);
+                return personneDTO;
+            }
         }
 
         public async Task Save()
@@ -46,7 +88,8 @@ namespace WebApplication1.Services.Personnes
 
         public bool AgeValidator (Personne personne,int MaxAge,int MinAge)
         {
-            return (personne.Age(personne.BirthDate) > MaxAge) || (personne.Age(personne.BirthDate) < MinAge);
+            return ((personne.Age(personne.BirthDate) > MaxAge) || (personne.Age(personne.BirthDate) < MinAge));
+            
         }
     }
 }

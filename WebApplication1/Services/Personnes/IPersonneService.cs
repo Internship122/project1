@@ -10,6 +10,12 @@ namespace WebApplication1.Services.Personnes
 
         Task<IEnumerable<PersonneDTO>> GetAll(); 
 
+        Task<PersonneDTO?> GetById(int id);
+
+        Task<PersonneDTO?> UpdatePersonne(int id);
+
+        Task<PersonneDTO?> DeletePersonne(int id);
+
         Task Save();
 
         bool AgeValidator(Personne personne,int MaxAge, int MinAge);
