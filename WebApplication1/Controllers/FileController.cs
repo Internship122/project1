@@ -36,7 +36,7 @@ namespace WebApplication1.Controllers
 
         // POST: api/file
         [HttpPost]
-        public async Task<IActionResult> AddFile([FromForm] Models.File file)
+        public async Task<IActionResult> AddFile(Models.File file)
         {
             var result = await _fileService.AddFile(file);
             return Ok(result);
