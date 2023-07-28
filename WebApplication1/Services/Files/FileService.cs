@@ -3,30 +3,64 @@ using System.Net.Http.Headers;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Models;
+using System;
 
 namespace WebApplication1.Services.Files
 {
-    public class FileService :FileInterface
+    public class FileService : IFileService
     {
-        public async Task UploadFile(string FilePath)
+        
+        private static readonly List<Models.File> files = new List<Models.File>();
+
+        public async Task<IEnumerable<Models.File>> GetAllFiles()
         {
-            var client = new HttpClient();
-            var form = new MultipartFormDataContent();
-            var fileStream = File.OpenRead(FilePath);
-            var streamContent = new StreamContent(fileStream);
-            streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            form.Add(streamContent, "file", Path.GetFileName(FilePath));
+            return await Task.FromResult(files);
+        }
 
-            var response = await client.PostAsync("https://localhost:7144/api/file", form);
+        public async Task<Models.File> GetFileByName(string fileName)
+        {
+            return await Task.FromResult(files.FirstOrDefault(f => f.FileName == fileName));
+        }
 
-            if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine("File upload failed: " + response.ReasonPhrase);
+        public async Task AddFile(Models.File file)
+        {
+            await files.AddAsync(file);
+            Console.WriteLine( "File uploaded successfully.");
+        }
+
+        public async Task UpdateFile(string fileName)
+        {
+            var ToUpdateFile = files.FirstOrDefault(f => f.FileName == fileName);
+            if (ToUpdateFile == null)
+            { 
+                Console.WriteLine("File not found.");
             }
             else
             {
-                Console.WriteLine("File uploaded successfully.");
+                using (var ms = new MemoryStream())
+                {
+                    await ToUpdateFile.CopyToAsync(ms);
+                    ToUpdateFile.FileData = ms.ToArray();
+                }
+            }
+
+            Console.WriteLine( "File updated successfully.");
+        }
+
+        public Task DeleteFile(string fileName)
+        {
+            var ToDeleteFile = files.FirstOrDefault(f => f.FileName == fileName);
+            if (ToDeleteFile == null)
+            {
+                Console.WriteLine("File not found.");
+            }
+            else {
+                files.Remove(ToDeleteFile);
+                Console.WriteLine("File deleted successfully.");
             }
         }
     }
+
 }
+
