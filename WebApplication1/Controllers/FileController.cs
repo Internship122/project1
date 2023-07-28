@@ -55,7 +55,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> DeleteFile(string fileName)
         {
             var result = await _fileService.DeleteFile(fileName);
-            return Ok(result);
+            return NoContent();
         }
     }
 }
