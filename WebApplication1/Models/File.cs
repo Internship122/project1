@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using javax.xml.bind.annotation;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication1.Models
 {
@@ -7,7 +8,7 @@ namespace WebApplication1.Models
         [Key]
         [Required]
         public string FileName { get; set; }
-       
+               
         public byte[] FileData { get; set; }
        
     }
