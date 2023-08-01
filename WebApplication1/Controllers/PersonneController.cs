@@ -78,7 +78,7 @@ namespace WebApplication1.Controllers
                     await _personneService.CreatePersonne(personne);
                     await _personneService.Save();
 
-                    return Ok();
+                    return Ok(personne);
 
                 }
             }   

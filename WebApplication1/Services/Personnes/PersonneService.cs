@@ -22,8 +22,8 @@ namespace WebApplication1.Services.Personnes
         public async Task CreatePersonne(Personne personne)
         {
             await _db.Personnes.AddAsync(personne);
-            var PersonneDTO=_mapper.Map<Personne>(personne);
- 
+            var personDTO=_mapper.Map<Personne>(personne);
+            
         }
 
       
@@ -48,8 +48,8 @@ namespace WebApplication1.Services.Personnes
             {
                 return null;
             }
-            var personneDTO=_mapper.Map<PersonneDTO>(personne);
-            return personneDTO;
+            var personDTO=_mapper.Map<PersonneDTO>(personne);
+            return personDTO;
         }
 
         public async Task<PersonneDTO?> UpdatePersonne(int id)
@@ -61,8 +61,8 @@ namespace WebApplication1.Services.Personnes
             }
             else
             { 
-                var personneDTO = _mapper.Map<PersonneDTO>(personne);
-                return personneDTO;
+                var personDTO = _mapper.Map<PersonneDTO>(personne);
+                return personDTO;
             }
         }
 
@@ -76,8 +76,8 @@ namespace WebApplication1.Services.Personnes
             else
             {
                 _db.Personnes.Remove(personne);
-                var personneDTO= _mapper.Map<PersonneDTO>(personne);
-                return personneDTO;
+                var personDTO= _mapper.Map<PersonneDTO>(personne);
+                return personDTO;
             }
         }
 

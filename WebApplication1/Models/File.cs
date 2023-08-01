@@ -9,7 +9,6 @@ namespace WebApplication1.Models
         public string FileName { get; set; }
        
         public byte[] FileData { get; set; }
-        [Required]
-        public string FileExtension { get; set; }
+       
     }
 }
