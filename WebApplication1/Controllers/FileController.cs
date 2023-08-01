@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using WebApplication1.Services.Files;
+using com.sun.xml.@internal.bind.v2.model.core;
 
 namespace WebApplication1.Controllers
 {
-    [Route("api/filecontroller")]
+    [Route("Fileapi/[Controller]")]
+    [ApiController]
+    //[Area("FileController")]
     public class FileController : Controller
     {
         private readonly IFileService _fileService;
@@ -38,24 +41,41 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFile(Models.File file)
         {
-            var result = await _fileService.AddFile(file);
-            return Ok(result);
+            var NewFile = await _fileService.AddFile(file);
+            await _fileService.Save();
+            return Ok(NewFile);
         }
 
         // PUT: api/file/{fileName}
         [HttpPut("{fileName}")]
         public async Task<IActionResult> UpdateFile(string fileName)
         {
-            var result = await _fileService.UpdateFile(fileName);
-            return Ok(result);
+            var ToUpdateFile= await _fileService.UpdateFile(fileName);
+            if (ToUpdateFile == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                await _fileService.Save();
+                return Ok(ToUpdateFile);
+            }
         }
 
         // DELETE: api/file/{fileName}
         [HttpDelete("{fileName}")]
         public async Task<IActionResult> DeleteFile(string fileName)
         {
-            var result = await _fileService.DeleteFile(fileName);
-            return NoContent();
+            var ToDeleteFile = await _fileService.DeleteFile(fileName);
+            if (ToDeleteFile == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                await _fileService.Save();
+                return NoContent();
+            }
         }
     }
 }

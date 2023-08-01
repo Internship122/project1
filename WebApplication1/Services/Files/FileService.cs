@@ -8,38 +8,51 @@ using System;
 using System.Linq;
 using System.IO.Pipelines;
 using NuGet.Protocol;
+using WebApplication1.Data;
+using System.Data.Entity;
+using com.sun.xml.@internal.bind.v2.model.core;
+using java.nio.file;
 
 namespace WebApplication1.Services.Files
 {
     public class FileService : IFileService
     {
         
-        private readonly List<Models.File> files = new List<Models.File>();
+        private readonly ApplicationDbContext _db;
 
-        public FileService(List<Models.File> files)
+        public FileService(ApplicationDbContext db)
         {
-            files = new List<Models.File>();
+            this._db = db;
         }
         public async Task<IEnumerable<Models.File?>> GetAllFiles()
         {
-            return await Task.FromResult(files);
+            var files= await _db.Files.ToListAsync();
+            return files;
         }
 
         public async Task<Models.File?> GetFileByName(string fileName)
         {
-            return await Task.FromResult(files.FirstOrDefault(f => f.FileName == fileName));
+            var file = await _db.Files.FindAsync(fileName);
+            if (file == null)
+            {
+                return null;
+            }
+            else
+            {
+                return file;
+            }            
         }
 
         public async Task<Models.File> AddFile(Models.File file)
         {
-            await Task.Run(()=> files.Add(file));
-            Console.WriteLine( "File uploaded successfully.");
+            await _db.Files.AddAsync(file);
+            Console.WriteLine("File uploaded successfully.");
             return file;
         }
 
         public async Task<Models.File?> UpdateFile(string fileName)
         {
-            var ToUpdateFile =await Task.FromResult(files.FirstOrDefault(f => f.FileName == fileName));
+            var ToUpdateFile = await _db.Files.FindAsync(fileName);
             if (ToUpdateFile == null)
             { 
                 Console.WriteLine("File not found.");
@@ -47,10 +60,14 @@ namespace WebApplication1.Services.Files
             }
             else
             {
-                using (var ms = new MemoryStream())
+                byte[] bytearray = ToUpdateFile.FileData;
+                using (var filestream = new MemoryStream(bytearray))
                 {
-                    await Task.Run(()=> ms.CopyToAsync(ToUpdateFile.FileData));
-                    ToUpdateFile.FileData = ms.ToArray();
+                    using (var ms = new MemoryStream())
+                    {
+                        await Task.Run(() => ms.CopyToAsync(filestream));
+                        ToUpdateFile.FileData = filestream.ToArray();
+                    }
                 }
             }
 
@@ -58,9 +75,9 @@ namespace WebApplication1.Services.Files
             return ToUpdateFile;
         }
 
-        public Task<Models.File>? DeleteFile(string fileName)
+        public async Task<Models.File?> DeleteFile(string fileName)
         {
-            var ToDeleteFile = files.FirstOrDefault(f => f.FileName == fileName);
+            var ToDeleteFile = await _db.Files.FindAsync(fileName);
 
             if (ToDeleteFile == null)
             {
@@ -68,10 +85,15 @@ namespace WebApplication1.Services.Files
                 return null;
             }
             else {
-                files.Remove(ToDeleteFile);
+                _db.Files.Remove(ToDeleteFile);
                 Console.WriteLine("File deleted successfully.");
                 return ToDeleteFile;
             }
+        }
+
+        public async Task Save()
+        {
+            await _db.SaveChangesAsync();
         }
     }
 

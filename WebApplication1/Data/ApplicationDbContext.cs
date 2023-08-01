@@ -1,5 +1,6 @@
 ﻿using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
+using File = WebApplication1.Models.File;
 
 namespace WebApplication1.Data
 {
@@ -12,6 +13,8 @@ namespace WebApplication1.Data
         }
 
         public DbSet<Personne> Personnes { get; set; } = null!;
+
+        public DbSet<File> Files { get; set; } = null!;
 
        
     }

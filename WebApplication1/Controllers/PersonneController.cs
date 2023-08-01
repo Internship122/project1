@@ -9,8 +9,9 @@ using AutoMapper;
 
 namespace WebApplication1.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("Personneapi/[Controller]")]
     [ApiController]
+    //[Area("PersonneController")]
     public class PersonneController : ControllerBase
     {
         private readonly IPersonneService _personneService;
