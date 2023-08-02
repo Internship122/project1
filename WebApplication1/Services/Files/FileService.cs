@@ -11,6 +11,7 @@ using WebApplication1.Data;
 using System.Data.Entity;
 using com.sun.org.apache.bcel.@internal.generic;
 using java.nio.file;
+using Path = System.IO.Path;
 
 namespace WebApplication1.Services.Files
 {
@@ -45,10 +46,11 @@ namespace WebApplication1.Services.Files
         public async Task<Models.File?> AddFile([FromForm] IFormFile file)
         {
             var NewFile =new Models.File();
+
             if (file == null || file.Length == 0)
             {
                 return null;
-            }
+            }                       
             else
             {
                 using (var ms = new MemoryStream())
@@ -68,30 +70,38 @@ namespace WebApplication1.Services.Files
         }
 
 
-        //update filecontent
+        //UPDATE filedata
         public async Task<Models.File?> UpdateFile([FromForm]IFormFile file, string fileName)
         {
             //
             var ToUpdateFile = await _db.Files.FindAsync(fileName);
             if (ToUpdateFile == null)
-            { 
+            {
                 Console.WriteLine("File not found.");
                 return null;
             }
             else
-            {   
+            {
                 using (var ms = new MemoryStream())
                 {
-                    await file.CopyToAsync(ms);
-                    ToUpdateFile.FileData = ms.ToArray();
-                }               
+
+                    using (var reader = new StreamReader(file.OpenReadStream()))
+                    {
+                        string fileContent = await reader.ReadToEndAsync();
+
+                        ToUpdateFile.FileData = ms.ToArray();
+
+                    }
+
+                }
+
+                Console.WriteLine("File updated successfully.");
+                return ToUpdateFile;
             }
-            Console.WriteLine( "File updated successfully.");
-            return ToUpdateFile;
         }
 
         //delete the file
-        //delete content from file
+        //TODO delete content from file
         public async Task<Models.File?> DeleteFile( string fileName)
         {
             var ToDeleteFile = await _db.Files.FindAsync(fileName);

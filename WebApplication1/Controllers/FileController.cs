@@ -42,8 +42,19 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> AddFile([FromForm]IFormFile file)
         {
             var NewFile = await _fileService.AddFile(file);
-            await _fileService.Save();
-            return Ok(NewFile);
+            if (NewFile == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                using (var reader = new StreamReader(file.OpenReadStream()))
+                {
+                    string fileContent = await reader.ReadToEndAsync();
+                };
+                await _fileService.Save();
+                return Ok(NewFile);
+            }
         }
 
         // PUT: api/file/{fileName}
