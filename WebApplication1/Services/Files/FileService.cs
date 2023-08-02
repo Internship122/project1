@@ -9,14 +9,14 @@ using System.Linq;
 using System.IO.Pipelines;
 using WebApplication1.Data;
 using System.Data.Entity;
-
-
+using com.sun.org.apache.bcel.@internal.generic;
+using java.nio.file;
 
 namespace WebApplication1.Services.Files
 {
     public class FileService : IFileService
     {
-        
+
         private readonly ApplicationDbContext _db;
 
         public FileService(ApplicationDbContext db)
@@ -25,7 +25,7 @@ namespace WebApplication1.Services.Files
         }
         public async Task<IEnumerable<Models.File?>> GetAllFiles()
         {
-            var files= await _db.Files.ToListAsync();
+            var files = await _db.Files.ToListAsync();
             return files;
         }
 
@@ -39,21 +39,37 @@ namespace WebApplication1.Services.Files
             else
             {
                 return file;
-            }            
+            }
         }
 
-        public async Task<Models.File> AddFile(Models.File file)
+        public async Task<Models.File?> AddFile([FromForm] IFormFile file)
         {
-            //create the file, add the path and the content to the file 
-            await _db.Files.AddAsync(file);
-            Console.WriteLine("File uploaded successfully.");
-            return file;
+            var NewFile =new Models.File();
+            if (file == null || file.Length == 0)
+            {
+                return null;
+            }
+            else
+            {
+                using (var ms = new MemoryStream())
+                {
+                    await file.CopyToAsync(ms);
+
+                    NewFile.FileName=file.FileName;
+                    NewFile.FileData = ms.ToArray();
+
+                    
+                }
+                await _db.Files.AddAsync(NewFile);
+                Console.WriteLine("File uploaded successfully.");
+                     
+                return NewFile;
+            }
         }
 
 
-        //update filename 
         //update filecontent
-        public async Task<Models.File?> UpdateFile(string fileName)
+        public async Task<Models.File?> UpdateFile([FromForm]IFormFile file, string fileName)
         {
             //
             var ToUpdateFile = await _db.Files.FindAsync(fileName);
@@ -63,24 +79,20 @@ namespace WebApplication1.Services.Files
                 return null;
             }
             else
-            {
-                byte[] bytearray = ToUpdateFile.FileData;
-                using (var filestream = new MemoryStream(bytearray))
+            {   
+                using (var ms = new MemoryStream())
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        await Task.Run(() => ms.CopyToAsync(filestream));
-                        ToUpdateFile.FileData = filestream.ToArray();
-                    }
-                }
+                    await file.CopyToAsync(ms);
+                    ToUpdateFile.FileData = ms.ToArray();
+                }               
             }
-
             Console.WriteLine( "File updated successfully.");
             return ToUpdateFile;
         }
+
         //delete the file
         //delete content from file
-        public async Task<Models.File?> DeleteFile(string fileName)
+        public async Task<Models.File?> DeleteFile( string fileName)
         {
             var ToDeleteFile = await _db.Files.FindAsync(fileName);
 
@@ -101,17 +113,16 @@ namespace WebApplication1.Services.Files
             await _db.SaveChangesAsync();
         }
 
-        //add two other functions ::
-        //1--one for reading content from file 
-        //2--for writing content into file
-
-        //add two functions for datafile
-        //1--serialization 
-        //2--deserialization
-        public byte[] SerializeDataFile(Models.File file)
-        {
-
-        }
+        
+        //public async Task<Byte[]> ReadFileContent(IFormFile file)
+        //{
+        //    using (var memoryStream = new System.IO.MemoryStream())
+        //    {
+        //        await file.CopyToAsync(memoryStream);
+        //        return memoryStream.ToArray();
+        //    }
+        //}
+        
     }
 
 }

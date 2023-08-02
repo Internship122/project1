@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using WebApplication1.Services.Files;
-using com.sun.xml.@internal.bind.v2.model.core;
+
 
 namespace WebApplication1.Controllers
 {
@@ -34,12 +34,12 @@ namespace WebApplication1.Controllers
             if (file == null)
                 return NotFound();
 
-            return Ok(new { file.FileName, file.FileData.Length });
+            return Ok(new{ file.FileName,file.FileData.Length});
         }
 
         // POST: api/file
         [HttpPost]
-        public async Task<IActionResult> AddFile(Models.File file)
+        public async Task<IActionResult> AddFile([FromForm]IFormFile file)
         {
             var NewFile = await _fileService.AddFile(file);
             await _fileService.Save();
@@ -48,9 +48,9 @@ namespace WebApplication1.Controllers
 
         // PUT: api/file/{fileName}
         [HttpPut("{fileName}")]
-        public async Task<IActionResult> UpdateFile(string fileName)
+        public async Task<IActionResult> UpdateFile([FromForm]IFormFile file,string fileName)
         {
-            var ToUpdateFile= await _fileService.UpdateFile(fileName);
+            var ToUpdateFile = await _fileService.UpdateFile(file,fileName);
             if (ToUpdateFile == null)
             {
                 return NotFound();

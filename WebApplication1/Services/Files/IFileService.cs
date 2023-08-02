@@ -1,4 +1,5 @@
-﻿using WebApplication1.Models;
+﻿using Microsoft.AspNetCore.Http;
+using WebApplication1.Models;
 using File = WebApplication1.Models.File;
 
 namespace WebApplication1.Services.Files
@@ -9,12 +10,16 @@ namespace WebApplication1.Services.Files
 
         Task<File?> GetFileByName(string fileName);
 
-        Task<File> AddFile(File file);
+        Task<File> AddFile(IFormFile file);
 
-        Task<File?> UpdateFile(string fileName);
+        Task<File?> UpdateFile(IFormFile file,string fileName);
 
-        Task<File>? DeleteFile(string fileName);
+        Task<File?> DeleteFile(string fileName);
 
         Task Save();
+
+        //byte[] SerializeDataFile(File file);
+
+        //Task WriteContentIntoFile(File file);
     }
 }
