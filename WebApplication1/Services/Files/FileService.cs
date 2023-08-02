@@ -44,13 +44,18 @@ namespace WebApplication1.Services.Files
 
         public async Task<Models.File> AddFile(Models.File file)
         {
+            //create the file, add the path and the content to the file 
             await _db.Files.AddAsync(file);
             Console.WriteLine("File uploaded successfully.");
             return file;
         }
 
+
+        //update filename 
+        //update filecontent
         public async Task<Models.File?> UpdateFile(string fileName)
         {
+            //
             var ToUpdateFile = await _db.Files.FindAsync(fileName);
             if (ToUpdateFile == null)
             { 
@@ -73,7 +78,8 @@ namespace WebApplication1.Services.Files
             Console.WriteLine( "File updated successfully.");
             return ToUpdateFile;
         }
-
+        //delete the file
+        //delete content from file
         public async Task<Models.File?> DeleteFile(string fileName)
         {
             var ToDeleteFile = await _db.Files.FindAsync(fileName);
@@ -95,6 +101,17 @@ namespace WebApplication1.Services.Files
             await _db.SaveChangesAsync();
         }
 
+        //add two other functions ::
+        //1--one for reading content from file 
+        //2--for writing content into file
+
+        //add two functions for datafile
+        //1--serialization 
+        //2--deserialization
+        public byte[] SerializeDataFile(Models.File file)
+        {
+
+        }
     }
 
 }
