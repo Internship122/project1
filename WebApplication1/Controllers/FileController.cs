@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WebApplication1.Services.Files;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Data.Entity;
+//using System.Data.Entity;
 
 
 namespace WebApplication1.Controllers

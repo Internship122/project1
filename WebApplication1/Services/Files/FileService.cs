@@ -7,10 +7,11 @@ using System;
 using System.Linq;
 using System.IO.Pipelines;
 using WebApplication1.Data;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Text;
 using java.io;
-//using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace WebApplication1.Services.Files
 {
@@ -84,7 +85,6 @@ namespace WebApplication1.Services.Files
         }
 
         //delete the file
-        //TODO delete content from file
         public async Task<Models.File?> DeleteFile( string fileName)
         {
             var ToDeleteFile = await _db.Files.FindAsync(fileName);

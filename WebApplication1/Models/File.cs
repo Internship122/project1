@@ -1,5 +1,6 @@
-﻿using javax.xml.bind.annotation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Models
 {
@@ -7,7 +8,6 @@ namespace WebApplication1.Models
     {
         [Key]
         public int Id { get; set; }
-
         [Required]
         public string FileName { get; set; }
                

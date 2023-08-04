@@ -30,8 +30,7 @@ namespace WebApplication1.Services.Personnes
 
         public async Task<IEnumerable<PersonneDTO>> GetAll()
         {
-            //var configuration = new MapperConfiguration(cfg => cfg.CreateProjection<Personne, PersonneDTO>()
-            //.ForMember(dto => dto.Age, conf => conf.MapFrom(p => p.Age(p.BirthDate))));
+            
 
             var personnes= await _db.Personnes.
                  OrderBy(p => p.Name).
