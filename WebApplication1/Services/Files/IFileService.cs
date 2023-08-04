@@ -18,6 +18,7 @@ namespace WebApplication1.Services.Files
         Task<FileDTO?> DeleteFile(string fileName);
 
         Task Save();
+        //public File ImageTestCreation();
 
         //byte[] SerializeDataFile(File file);
 

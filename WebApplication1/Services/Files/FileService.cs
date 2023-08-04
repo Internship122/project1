@@ -11,6 +11,10 @@ using java.io;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using AutoMapper;
+using System.Drawing.Imaging;
+using System.Drawing;
+using com.sun.org.apache.bcel.@internal.generic;
+using System.Reflection;
 
 namespace WebApplication1.Services.Files
 {
@@ -112,6 +116,37 @@ namespace WebApplication1.Services.Files
         {
             await _db.SaveChangesAsync();
         }
+
+        //public Models.File ImageTestCreation()
+        //{
+        //    int diameterInPixels = 100;
+        //    string ImageName = "BlueCircle.Jpeg";
+        //    Bitmap bitmap = new (diameterInPixels, diameterInPixels);
+        //    using (Graphics graphics = Graphics.FromImage(bitmap))
+        //    {
+        //        graphics.Clear(Color.White); // Set the background color
+        //        using (Pen pen = new (Color.Blue, 2)) // Set the circle color and thickness
+        //        {
+        //            int offset = 1;
+        //            graphics.DrawEllipse(pen, offset, offset, diameterInPixels - 2 * offset, diameterInPixels - 2 * offset);
+        //        }
+        //    }
+
+            
+        //    byte[] byteArray;
+        //    using (MemoryStream memoryStream = new MemoryStream())
+        //    {
+        //        bitmap.Save(memoryStream, ImageFormat.Jpeg); 
+        //        byteArray = memoryStream.ToArray();
+
+        //    };
+        //    var file = new Models.File()
+        //    {
+        //            file.FileName = ImageName;
+        //                file.FileData = byteArray; 
+        //    }
+        //     return file;
+                
 
         
         //public async Task<Byte[]> ReadFileContent(IFormFile file)
