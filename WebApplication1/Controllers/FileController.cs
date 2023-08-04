@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
             if (file == null)
                 return NotFound();
 
-            return Ok(new{ file.FileName,file.FileData.Length});
+            return Ok(new{ file.FileName,file.FileContent.Length});
         }
 
         // POST: api/file

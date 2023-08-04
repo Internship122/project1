@@ -9,13 +9,13 @@ namespace WebApplication1.Services.Files
     {
         Task<IEnumerable<FileDTO?>> GetAllFiles();
 
-        Task<File?> GetFileByName(string fileName);
+        Task<FileDTO?> GetFileByName(string fileName);
 
-        Task<File> AddFile(File file);
+        Task<FileDTO> AddFile(File file);
 
-        Task<File?> UpdateFile(File file,string fileName);
+        Task<FileDTO?> UpdateFile(File file,string fileName);
 
-        Task<File?> DeleteFile(string fileName);
+        Task<FileDTO?> DeleteFile(string fileName);
 
         Task Save();
 

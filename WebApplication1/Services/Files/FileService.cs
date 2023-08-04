@@ -33,7 +33,7 @@ namespace WebApplication1.Services.Files
             return filesDto;            
         }
 
-        public async Task<Models.File?> GetFileByName(string fileName)
+        public async Task<Models.FileDTO?> GetFileByName(string fileName)
         {
             var file = await _db.Files.FirstOrDefaultAsync(f => f.FileName == fileName);
             if (file == null)
@@ -42,11 +42,12 @@ namespace WebApplication1.Services.Files
             }
             else
             {
-                return file;
+                var fileDTO = _mapper.Map<FileDTO>(file);
+                return fileDTO;
             }
         }
 
-        public async Task<Models.File?> AddFile(Models.File file)
+        public async Task<Models.FileDTO?> AddFile(Models.File file)
         {
             if (file == null || file.FileData.Length == 0)
             {
@@ -62,14 +63,15 @@ namespace WebApplication1.Services.Files
 
                 await _db.Files.AddAsync(file);
                 System.Console.WriteLine("File uploaded successfully.");
-                     
-                return file;
+
+                var fileDTO = _mapper.Map<FileDTO>(file);
+                return fileDTO;
             }
         }
 
 
         //UPDATE filedata
-        public async Task<Models.File?> UpdateFile(Models.File file, string fileName)
+        public async Task<Models.FileDTO?> UpdateFile(Models.File file, string fileName)
         {
             //
             var ToUpdateFile = await _db.Files.FirstOrDefaultAsync(f => f.FileName == fileName);
@@ -81,14 +83,15 @@ namespace WebApplication1.Services.Files
             else
             {
                 ToUpdateFile.FileName=file.FileName;
-                ToUpdateFile.FileData=file.FileData;    
+                ToUpdateFile.FileData=file.FileData;
 
-                return  ToUpdateFile;
+                var ToUpdateFileDTO = _mapper.Map<FileDTO>(ToUpdateFile);
+                return  ToUpdateFileDTO;
             }
         }
 
         //delete the file
-        public async Task<Models.File?> DeleteFile( string fileName)
+        public async Task<Models.FileDTO?> DeleteFile( string fileName)
         {
             var ToDeleteFile = await _db.Files.FirstOrDefaultAsync(f => f.FileName == fileName);
 
@@ -100,7 +103,8 @@ namespace WebApplication1.Services.Files
             else {
                 _db.Files.Remove(ToDeleteFile);
                 System.Console.WriteLine("File deleted successfully.");
-                return ToDeleteFile;
+                var ToDeleteFileDTO = _mapper.Map<FileDTO>(ToDeleteFile);
+                return ToDeleteFileDTO;
             }
         }
 
