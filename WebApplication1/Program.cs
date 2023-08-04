@@ -26,7 +26,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection") 
     ));
-builder.Services.AddAutoMapper(typeof(PersonneProfile));
+builder.Services.AddAutoMapper(typeof(PersonneProfile),typeof(FileProfile));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

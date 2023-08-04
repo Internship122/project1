@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
@@ -7,11 +6,11 @@ using System;
 using System.Linq;
 using System.IO.Pipelines;
 using WebApplication1.Data;
-//using System.Data.Entity;
 using System.Text;
 using java.io;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace WebApplication1.Services.Files
 {
@@ -19,20 +18,24 @@ namespace WebApplication1.Services.Files
     {
 
         private readonly ApplicationDbContext _db;
+        private readonly IMapper _mapper;
 
-        public FileService(ApplicationDbContext db)
+        public FileService(ApplicationDbContext db, IMapper mapper)
         {
             this._db = db;
+            _mapper = mapper;
         }
-        public async Task<IEnumerable<Models.File?>> GetAllFiles()
+        public async Task<IEnumerable<FileDTO?>> GetAllFiles()
         {
             var files = await _db.Files.ToListAsync();
-            return files;
+            var filesDto=files.Select(file=>_mapper.Map<FileDTO>(file));
+           
+            return filesDto;            
         }
 
         public async Task<Models.File?> GetFileByName(string fileName)
         {
-            var file = await _db.Files.FindAsync(fileName);
+            var file = await _db.Files.FirstOrDefaultAsync(f => f.FileName == fileName);
             if (file == null)
             {
                 return null;
@@ -69,7 +72,7 @@ namespace WebApplication1.Services.Files
         public async Task<Models.File?> UpdateFile(Models.File file, string fileName)
         {
             //
-            var ToUpdateFile = await _db.Files.FindAsync(fileName);
+            var ToUpdateFile = await _db.Files.FirstOrDefaultAsync(f => f.FileName == fileName);
             if (ToUpdateFile == null )
             {
                 System.Console.WriteLine("File not found.");
@@ -87,7 +90,7 @@ namespace WebApplication1.Services.Files
         //delete the file
         public async Task<Models.File?> DeleteFile( string fileName)
         {
-            var ToDeleteFile = await _db.Files.FindAsync(fileName);
+            var ToDeleteFile = await _db.Files.FirstOrDefaultAsync(f => f.FileName == fileName);
 
             if (ToDeleteFile == null)
             {
@@ -115,7 +118,7 @@ namespace WebApplication1.Services.Files
         //        return memoryStream.ToArray();
         //    }
         //}
-        
+
     }
 
 }

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using File = WebApplication1.Models.File;
 using System.Linq;
 using System.Threading.Tasks;
-//using System.Data.Entity;
 using System.Collections.Generic;
 
 namespace WebApplication1.Data

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WebApplication1.Services.Files;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-//using System.Data.Entity;
+using WebApplication1.Models;
 
 
 namespace WebApplication1.Controllers
@@ -23,9 +23,10 @@ namespace WebApplication1.Controllers
 
         // GET: api/file
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.File>>> GetAllFiles()
+        public async Task<ActionResult<IEnumerable<FileDTO>>> GetAllFiles()
         {
             var files = await _fileService.GetAllFiles();
+
             return Ok(files);
         }
 

@@ -7,7 +7,7 @@ namespace WebApplication1.Services.Files
 {
     public interface IFileService
     {
-        Task<IEnumerable<File?>> GetAllFiles();
+        Task<IEnumerable<FileDTO?>> GetAllFiles();
 
         Task<File?> GetFileByName(string fileName);
 
