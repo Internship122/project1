@@ -52,16 +52,20 @@ namespace WebApplication1.Services.Personnes
             return personDTO;
         }
 
-        public async Task<PersonneDTO?> UpdatePersonne(int id)
+        public async Task<PersonneDTO?> UpdatePersonne(int id,Personne personne)
         {
-            var personne = await _db.Personnes.FindAsync(id);
-            if (personne == null)
+            var ToUpdatepersonne = await _db.Personnes.FindAsync(id);
+            if (ToUpdatepersonne == null)
             {
                 return null;
             }
             else
-            { 
-                var personDTO = _mapper.Map<PersonneDTO>(personne);
+            {
+                ToUpdatepersonne.Name = personne.Name;
+                ToUpdatepersonne.Prename= personne.Prename;
+                ToUpdatepersonne.BirthDate = personne.BirthDate;
+
+                var personDTO = _mapper.Map<PersonneDTO>(ToUpdatepersonne);
                 return personDTO;
             }
         }

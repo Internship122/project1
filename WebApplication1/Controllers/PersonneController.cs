@@ -48,9 +48,9 @@ namespace WebApplication1.Controllers
 
         //UPDATE
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePersonne(int id)
+        public async Task<IActionResult> UpdatePersonne(int id, Personne personne)
         {
-            var UpdatedPersonne = await _personneService.UpdatePersonne(id);
+            var UpdatedPersonne = await _personneService.UpdatePersonne(id,personne);
             if (UpdatedPersonne == null)
             {
                 return NotFound();

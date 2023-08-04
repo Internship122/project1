@@ -3,15 +3,14 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
-using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.IO.Pipelines;
 using WebApplication1.Data;
 using System.Data.Entity;
-using com.sun.org.apache.bcel.@internal.generic;
-using java.nio.file;
-using Path = System.IO.Path;
+using System.Text;
+using java.io;
+//using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Services.Files
 {
@@ -43,60 +42,44 @@ namespace WebApplication1.Services.Files
             }
         }
 
-        public async Task<Models.File?> AddFile([FromForm] IFormFile file)
+        public async Task<Models.File?> AddFile(Models.File file)
         {
-            var NewFile =new Models.File();
-
-            if (file == null || file.Length == 0)
+            if (file == null || file.FileData.Length == 0)
             {
                 return null;
             }                       
             else
             {
-                using (var ms = new MemoryStream())
-                {
-                    await file.CopyToAsync(ms);
+                //Saves the modelfile to a file
+                System.IO.File.WriteAllBytes(file.FileName, file.FileData);
 
-                    NewFile.FileName=file.FileName;
-                    NewFile.FileData = ms.ToArray();
+                System.Console.WriteLine("this is the filename", file.FileName);
+                System.Console.WriteLine("the file content",Encoding.UTF8.GetString(file.FileData));
 
-                    
-                }
-                await _db.Files.AddAsync(NewFile);
-                Console.WriteLine("File uploaded successfully.");
+                await _db.Files.AddAsync(file);
+                System.Console.WriteLine("File uploaded successfully.");
                      
-                return NewFile;
+                return file;
             }
         }
 
 
         //UPDATE filedata
-        public async Task<Models.File?> UpdateFile([FromForm]IFormFile file, string fileName)
+        public async Task<Models.File?> UpdateFile(Models.File file, string fileName)
         {
             //
             var ToUpdateFile = await _db.Files.FindAsync(fileName);
-            if (ToUpdateFile == null)
+            if (ToUpdateFile == null )
             {
-                Console.WriteLine("File not found.");
+                System.Console.WriteLine("File not found.");
                 return null;
             }
             else
             {
-                using (var ms = new MemoryStream())
-                {
+                ToUpdateFile.FileName=file.FileName;
+                ToUpdateFile.FileData=file.FileData;    
 
-                    using (var reader = new StreamReader(file.OpenReadStream()))
-                    {
-                        string fileContent = await reader.ReadToEndAsync();
-
-                        ToUpdateFile.FileData = ms.ToArray();
-
-                    }
-
-                }
-
-                Console.WriteLine("File updated successfully.");
-                return ToUpdateFile;
+                return  ToUpdateFile;
             }
         }
 
@@ -108,12 +91,12 @@ namespace WebApplication1.Services.Files
 
             if (ToDeleteFile == null)
             {
-                Console.WriteLine("File not found.");
+                System.Console.WriteLine("File not found.");
                 return null;
             }
             else {
                 _db.Files.Remove(ToDeleteFile);
-                Console.WriteLine("File deleted successfully.");
+                System.Console.WriteLine("File deleted successfully.");
                 return ToDeleteFile;
             }
         }

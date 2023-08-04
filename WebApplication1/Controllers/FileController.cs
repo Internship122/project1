@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using WebApplication1.Services.Files;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Data.Entity;
 
 
 namespace WebApplication1.Controllers
@@ -20,7 +23,7 @@ namespace WebApplication1.Controllers
 
         // GET: api/file
         [HttpGet]
-        public async Task<IActionResult> GetAllFiles()
+        public async Task<ActionResult<IEnumerable<Models.File>>> GetAllFiles()
         {
             var files = await _fileService.GetAllFiles();
             return Ok(files);
@@ -39,7 +42,7 @@ namespace WebApplication1.Controllers
 
         // POST: api/file
         [HttpPost]
-        public async Task<IActionResult> AddFile([FromForm]IFormFile file)
+        public async Task<IActionResult> AddFile(Models.File file)
         {
             var NewFile = await _fileService.AddFile(file);
             if (NewFile == null)
@@ -48,10 +51,7 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                using (var reader = new StreamReader(file.OpenReadStream()))
-                {
-                    string fileContent = await reader.ReadToEndAsync();
-                };
+                
                 await _fileService.Save();
                 return Ok(NewFile);
             }
@@ -59,7 +59,7 @@ namespace WebApplication1.Controllers
 
         // PUT: api/file/{fileName}
         [HttpPut("{fileName}")]
-        public async Task<IActionResult> UpdateFile([FromForm]IFormFile file,string fileName)
+        public async Task<IActionResult> UpdateFile(Models.File file,string fileName)
         {
             var ToUpdateFile = await _fileService.UpdateFile(file,fileName);
             if (ToUpdateFile == null)

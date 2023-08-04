@@ -12,7 +12,7 @@ namespace WebApplication1.Services.Personnes
 
         Task<PersonneDTO?> GetById(int id);
 
-        Task<PersonneDTO?> UpdatePersonne(int id);
+        Task<PersonneDTO?> UpdatePersonne(int id,Personne personne);
 
         Task<PersonneDTO?> DeletePersonne(int id);
 

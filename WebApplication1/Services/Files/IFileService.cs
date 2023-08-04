@@ -10,9 +10,9 @@ namespace WebApplication1.Services.Files
 
         Task<File?> GetFileByName(string fileName);
 
-        Task<File> AddFile(IFormFile file);
+        Task<File> AddFile(File file);
 
-        Task<File?> UpdateFile(IFormFile file,string fileName);
+        Task<File?> UpdateFile(File file,string fileName);
 
         Task<File?> DeleteFile(string fileName);
 
