@@ -23,7 +23,7 @@ namespace WebApplication1.Controllers
 
         // GET: api/file
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FileDTO>>> GetAllFiles()
+        public async Task<ActionResult<IEnumerable<Models.File>>> GetAllFiles()
         {
             var files = await _fileService.GetAllFiles();
 
@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
             if (file == null)
                 return NotFound();
 
-            return Ok(new{ file.FileName,file.FileContent.Length});
+            return Ok(new{ file.FileName,file.FileData.Length});
         }
 
         // POST: api/file

@@ -7,15 +7,15 @@ namespace WebApplication1.Services.Files
 {
     public interface IFileService
     {
-        Task<IEnumerable<FileDTO?>> GetAllFiles();
+        Task<IEnumerable<File?>> GetAllFiles();
 
-        Task<FileDTO?> GetFileByName(string fileName);
+        Task<File?> GetFileByName(string fileName);
 
-        Task<FileDTO> AddFile(File file);
+        Task<File> AddFile(File file);
 
-        Task<FileDTO?> UpdateFile(File file,string fileName);
+        Task<File?> UpdateFile(File file,string fileName);
 
-        Task<FileDTO?> DeleteFile(string fileName);
+        Task<File?> DeleteFile(string fileName);
 
         Task Save();
         //public File ImageTestCreation();
