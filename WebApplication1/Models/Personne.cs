@@ -8,12 +8,12 @@ namespace WebApplication1.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Enter a Name")]
         [StringLength(50)]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Enter a Prename")]
         public string Prename { get; set; }
-  
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set ; }
         
 
