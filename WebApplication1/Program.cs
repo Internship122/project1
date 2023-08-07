@@ -6,6 +6,7 @@ using WebApplication1.Models;
 using WebApplication1.Services.Files;
 using WebApplication1.Services.Personnes;
 using WebApplication1.Profiles;
+using WebApplication1.GraphQl;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -29,6 +30,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddAutoMapper(typeof(PersonneProfile));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddGraphQLServer().AddQueryType<Query>().AddProjections().AddFiltering().AddSorting()
+    .AddMutationType<Mutation>();
 
 
 
@@ -48,7 +51,7 @@ app.UseCors();
 
 app.UseAuthorization();
 
-app.UseEndpoints( endpoints => { endpoints.MapControllers(); }
+app.UseEndpoints( endpoints => { endpoints.MapControllers(); endpoints.MapGraphQL("/GraphQL"); }
    );
 
 app.Run();

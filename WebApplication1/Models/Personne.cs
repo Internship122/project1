@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using HotChocolate.Data;
 
 namespace WebApplication1.Models
 {
@@ -10,6 +11,7 @@ namespace WebApplication1.Models
 
         [Required(ErrorMessage ="Enter a Name")]
         [StringLength(50)]
+        [UseSorting]
         public string Name { get; set; }
         [Required(ErrorMessage ="Enter a Prename")]
         public string Prename { get; set; }

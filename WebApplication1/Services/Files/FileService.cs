@@ -122,7 +122,11 @@ namespace WebApplication1.Services.Files
                 return memoryStream.ToArray();
             }
         }
-        
+        // public string Get_Directory(IFromFile file)
+        //{
+        //    string fileName=file.FileName;
+
+        //}
     }
 
 }
