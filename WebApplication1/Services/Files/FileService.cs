@@ -11,10 +11,6 @@ using java.io;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using AutoMapper;
-using System.Drawing.Imaging;
-using System.Drawing;
-using com.sun.org.apache.bcel.@internal.generic;
-using System.Reflection;
 
 namespace WebApplication1.Services.Files
 {
@@ -31,8 +27,7 @@ namespace WebApplication1.Services.Files
         }
         public async Task<IEnumerable<Models.File?>> GetAllFiles()
         {
-            var files = await _db.Files.ToListAsync();
-            //var filesDto=files.Select(file=>_mapper.Map<FileDTO>(file));
+            var files = await _db.Files.ToArrayAsync();
            
             return files;            
         }
@@ -46,36 +41,40 @@ namespace WebApplication1.Services.Files
             }
             else
             {
-                //var fileDTO = _mapper.Map<FileDTO>(file);
                 return file;
             }
         }
 
-        public async Task<Models.File?> AddFile(Models.File file)
+        public async Task<Models.File?> AddFile(IFormFile file)
         {
-            if (file == null || file.FileData.Length == 0)
+            if (file == null || file.Length == 0)
             {
                 return null;
             }                       
             else
             {
-                //Saves the modelfile to a file
-                System.IO.File.WriteAllBytes(file.FileName, file.FileData);
+                var filePath = file.FileName;
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                };
 
-                System.Console.WriteLine("this is the filename", file.FileName);
-                System.Console.WriteLine("the file content",Encoding.UTF8.GetString(file.FileData));//For a text file only 
 
-                await _db.Files.AddAsync(file);
+                var NewFile = new Models.File()
+                {
+                    FileName = file.FileName,
+                    FileData = GetFileBytes(file)
+                };
+                await _db.Files.AddAsync(NewFile);
                 System.Console.WriteLine("File uploaded successfully.");
 
-                //var fileDTO = _mapper.Map<FileDTO>(file);
-                return file;
+                return NewFile;
             }
         }
 
 
         //UPDATE filedata
-        public async Task<Models.File?> UpdateFile(Models.File file, string fileName)
+        public async Task<Models.File?> UpdateFile(IFormFile file, string fileName)
         {
             //
             var ToUpdateFile = await _db.Files.FirstOrDefaultAsync(f => f.FileName == fileName);
@@ -87,9 +86,8 @@ namespace WebApplication1.Services.Files
             else
             {
                 ToUpdateFile.FileName=file.FileName;
-                ToUpdateFile.FileData=file.FileData;
+                ToUpdateFile.FileData=GetFileBytes(file);
 
-                //var ToUpdateFileDTO = _mapper.Map<FileDTO>(ToUpdateFile);
                 return  ToUpdateFile;
             }
         }
@@ -107,7 +105,6 @@ namespace WebApplication1.Services.Files
             else {
                 _db.Files.Remove(ToDeleteFile);
                 System.Console.WriteLine("File deleted successfully.");
-                //var ToDeleteFileDTO = _mapper.Map<FileDTO>(ToDeleteFile);
                 return ToDeleteFile;
             }
         }
@@ -117,19 +114,15 @@ namespace WebApplication1.Services.Files
             await _db.SaveChangesAsync();
         }
 
+        public Byte[] GetFileBytes(IFormFile file)
+        {
+            using (var memoryStream = new System.IO.MemoryStream())
+            {
+                file.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
         
-                
-
-        
-        //public async Task<Byte[]> ReadFileContent(IFormFile file)
-        //{
-        //    using (var memoryStream = new System.IO.MemoryStream())
-        //    {
-        //        await file.CopyToAsync(memoryStream);
-        //        return memoryStream.ToArray();
-        //    }
-        //}
-
     }
 
 }

@@ -43,7 +43,7 @@ namespace WebApplication1.Controllers
 
         // POST: api/file
         [HttpPost]
-        public async Task<IActionResult> AddFile(Models.File file)
+        public async Task<IActionResult> AddFile(IFormFile file)
         {
             var NewFile = await _fileService.AddFile(file);
             if (NewFile == null)
@@ -60,7 +60,7 @@ namespace WebApplication1.Controllers
 
         // PUT: api/file/{fileName}
         [HttpPut("{fileName}")]
-        public async Task<IActionResult> UpdateFile(Models.File file,string fileName)
+        public async Task<IActionResult> UpdateFile(IFormFile file,string fileName)
         {
             var ToUpdateFile = await _fileService.UpdateFile(file,fileName);
             if (ToUpdateFile == null)

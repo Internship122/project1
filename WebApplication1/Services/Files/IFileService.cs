@@ -11,16 +11,14 @@ namespace WebApplication1.Services.Files
 
         Task<File?> GetFileByName(string fileName);
 
-        Task<File> AddFile(File file);
+        Task<File> AddFile(IFormFile file);
 
-        Task<File?> UpdateFile(File file,string fileName);
+        Task<File?> UpdateFile( IFormFile file,string fileName);
 
         Task<File?> DeleteFile(string fileName);
 
         Task Save();
 
-        //byte[] SerializeDataFile(File file);
-
-        //Task WriteContentIntoFile(File file);
+        byte[] GetFileBytes(IFormFile file);
     }
 }
