@@ -63,7 +63,7 @@ namespace WebApplication1.Services.Files
                 System.IO.File.WriteAllBytes(file.FileName, file.FileData);
 
                 System.Console.WriteLine("this is the filename", file.FileName);
-                System.Console.WriteLine("the file content",Encoding.UTF8.GetString(file.FileData));
+                System.Console.WriteLine("the file content",Encoding.UTF8.GetString(file.FileData));//For a text file only 
 
                 await _db.Files.AddAsync(file);
                 System.Console.WriteLine("File uploaded successfully.");
@@ -117,35 +117,7 @@ namespace WebApplication1.Services.Files
             await _db.SaveChangesAsync();
         }
 
-        //public Models.File ImageTestCreation()
-        //{
-        //    int diameterInPixels = 100;
-        //    string ImageName = "BlueCircle.Jpeg";
-        //    Bitmap bitmap = new (diameterInPixels, diameterInPixels);
-        //    using (Graphics graphics = Graphics.FromImage(bitmap))
-        //    {
-        //        graphics.Clear(Color.White); // Set the background color
-        //        using (Pen pen = new (Color.Blue, 2)) // Set the circle color and thickness
-        //        {
-        //            int offset = 1;
-        //            graphics.DrawEllipse(pen, offset, offset, diameterInPixels - 2 * offset, diameterInPixels - 2 * offset);
-        //        }
-        //    }
-
-            
-        //    byte[] byteArray;
-        //    using (MemoryStream memoryStream = new MemoryStream())
-        //    {
-        //        bitmap.Save(memoryStream, ImageFormat.Jpeg); 
-        //        byteArray = memoryStream.ToArray();
-
-        //    };
-        //    var file = new Models.File()
-        //    {
-        //            file.FileName = ImageName;
-        //                file.FileData = byteArray; 
-        //    }
-        //     return file;
+        
                 
 
         

@@ -18,7 +18,6 @@ namespace WebApplication1.Services.Files
         Task<File?> DeleteFile(string fileName);
 
         Task Save();
-        //public File ImageTestCreation();
 
         //byte[] SerializeDataFile(File file);
 
