@@ -19,11 +19,11 @@ namespace WebApplication1.Services.Personnes
             this._db = db;
             _mapper = mapper;
         }
-        public async Task CreatePersonne(Personne personne)
+        public async Task<PersonneDTO> CreatePersonne(Personne personne)
         {
-            await _db.Personnes.AddAsync(personne);
-            var personDTO=_mapper.Map<Personne>(personne);
-            
+            var NewPersonne=await _db.Personnes.AddAsync(personne);
+            var personDTO=_mapper.Map<PersonneDTO>(NewPersonne);
+            return personDTO;
         }
 
       

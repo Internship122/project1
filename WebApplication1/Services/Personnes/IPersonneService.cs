@@ -6,7 +6,7 @@ namespace WebApplication1.Services.Personnes
 {
     public interface IPersonneService
     {
-        Task CreatePersonne(Personne personne);
+        Task<PersonneDTO> CreatePersonne(Personne personne);
 
         Task<IEnumerable<PersonneDTO>> GetAll(); 
 
