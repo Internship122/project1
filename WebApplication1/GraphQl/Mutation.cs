@@ -6,11 +6,14 @@ using WebApplication1.Services.Files;
 using HotChocolate.Execution;
 using WebApplication1.Models;
 using WebApplication1.Services.Personnes;
+using HotChocolate.Data.Filters;
 
 namespace WebApplication1.GraphQl
 {
-    public class Mutation
+    public class Mutation : ObjectType<Mutation>
+        
     {
+        private readonly FileService fileService1;
         public async Task<PersonneDTO> AddPersonne([Service] IPersonneService personneService, Personne personne)
         {
             var NewPersonne = await personneService.CreatePersonne(personne);
@@ -44,38 +47,53 @@ namespace WebApplication1.GraphQl
                 return ToDeletePersonne;
             }
         }
-        public async Task<Models.File> AddFile([Service] IFileService fileService, IFormFile file)
-        {
-            var NewFile = await fileService.AddFile(file);
-            await fileService.Save();
-            return NewFile;
-        }
-        public async Task<Models.File> UpdateFile([Service] IFileService fileService, IFormFile file, string fileName)
-        {
-            var ToUpdateFile = await fileService.UpdateFile(file,fileName);
-            if (ToUpdateFile == null) 
-            {
-                throw new QueryException("File Not Found");
-            }
-            else
-            {
-                await fileService.Save();
-                return ToUpdateFile;
-            }
-        }
-        public async Task<Models.File> DeleteFile([Service] IFileService fileService, string fileName)
-        {
-            var ToDeleteFile = await fileService.DeleteFile(fileName);
-            if (ToDeleteFile == null)
-            {
-                throw new QueryException("File Not Found");
-            }
-            else
-            {
-                await fileService.Save();
-                return ToDeleteFile;
-            }
-        }
+        //protected override void Configure(IObjectTypeDescriptor<Mutation> descriptor)
+        //{
+        //    descriptor
+        //    .Field("uploadFile")
+        //    .Argument("file", a => a.Type<UploadType>())
+        //    .Resolve(async context =>
+        //    {
+        //        var file = context.ArgumentValue<IFormFile>("file");
+
+        //        var fileName = file.Name;
+        //        var fileContent = fileService1.GetFileBytes(file);
+
+        //        await using Stream stream = file.OpenReadStream();
+        //    });
+        //}
+        //public async Task<Models.File> AddFile([Service] IFileService fileService, FileInputType file)
+        //{
+        //    var NewFile = await fileService.AddFile((IFormFile)file);
+        //    await fileService.Save();
+        //    return NewFile;
+        //}
+        //public async Task<Models.File> UpdateFile([Service] IFileService fileService, FileInputType file, string fileName)
+        //{
+        //    var ToUpdateFile = await fileService.UpdateFile((IFormFile)file, fileName);
+        //    if (ToUpdateFile == null)
+        //    {
+        //        throw new QueryException("File Not Found");
+        //    }
+        //    else
+        //    {
+        //        await fileService.Save();
+        //        return ToUpdateFile;
+        //    }
+        //}
+        //public async Task<Models.File> DeleteFile([Service] IFileService fileService, string fileName)
+        //{
+        //    var ToDeleteFile = await fileService.DeleteFile(fileName);
+        //    if (ToDeleteFile == null)
+        //    {
+        //        throw new QueryException("File Not Found");
+        //    }
+        //    else
+        //    {
+        //        await fileService.Save();
+        //        return ToDeleteFile;
+        //    }
+        //}
 
 
     }

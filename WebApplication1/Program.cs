@@ -7,6 +7,7 @@ using WebApplication1.Services.Files;
 using WebApplication1.Services.Personnes;
 using WebApplication1.Profiles;
 using WebApplication1.GraphQl;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -30,10 +31,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddAutoMapper(typeof(PersonneProfile));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddGraphQLServer().AddQueryType<Query>().AddProjections().AddFiltering().AddSorting()
-    .AddMutationType<Mutation>();
+builder.Services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>().AddType<UploadType>()
+                .AddProjections().AddAuthorizationCore().AddFiltering().AddSorting();
 
-
+builder.Services.Configure<FormOptions>(options =>
+{
+    // Set the limit to 256 MB
+    options.MultipartBodyLengthLimit = 268435456;
+});
 
 var app = builder.Build();
 
