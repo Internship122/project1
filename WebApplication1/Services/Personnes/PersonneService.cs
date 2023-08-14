@@ -30,8 +30,6 @@ namespace WebApplication1.Services.Personnes
 
         public async Task<IEnumerable<PersonneDTO>> GetAll()
         {
-            
-
             var personnes= await _db.Personnes.
                  OrderBy(p => p.Name).
                  ThenBy(p => p.Prename).

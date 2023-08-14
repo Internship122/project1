@@ -8,6 +8,8 @@ using WebApplication1.Services.Personnes;
 using WebApplication1.Profiles;
 using WebApplication1.GraphQl;
 using Microsoft.AspNetCore.Http.Features;
+using WebApplication1.GraphQl.Mutations;
+using WebApplication1.GraphQl.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -31,7 +33,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddAutoMapper(typeof(PersonneProfile));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>().AddType<UploadType>()
+builder.Services.AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    .AddTypeExtension<PersonneQuery>()
+    .AddTypeExtension<PersonneMutation>()
+    .AddType<PersonneType>()
                 .AddProjections().AddAuthorizationCore().AddFiltering().AddSorting();
 
 builder.Services.Configure<FormOptions>(options =>

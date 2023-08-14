@@ -1,0 +1,6 @@
+﻿type File
+{
+id: int! @fromJson
+filename: string! @fromJson
+filedata: byte[]! @fromJson
+}
